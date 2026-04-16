@@ -1,14 +1,10 @@
 import { get } from "../services/apiClient.js";
 import { showError } from "../services/errors.js";
 
+const DEFAULT_ENDPOINT = "/social/posts/following";
+
 const filteredPosts = document.getElementById("filtered-posts");
 const allPosts = document.getElementById("all-posts");
-
-filteredPosts.addEventListener("click", () =>
-  fetchPosts("/social/posts/following"),
-);
-
-allPosts.addEventListener("click", () => fetchPosts("/social/posts"));
 
 async function fetchPosts(endpoint) {
   try {
@@ -59,3 +55,27 @@ async function renderPosts(posts) {
     container.appendChild(postWrapper);
   });
 }
+
+function activeButton(activeButton) {
+  filteredPosts.classList.remove("selected");
+  allPosts.classList.remove("selected");
+
+  activeButton.classList.add("selected");
+}
+
+async function initFeed() {
+  activeButton(filteredPosts);
+  await fetchPosts(DEFAULT_ENDPOINT);
+}
+
+document.addEventListener("DOMContentLoaded", initFeed);
+
+filteredPosts.addEventListener("click", async () => {
+  activeButton(filteredPosts);
+  fetchPosts(DEFAULT_ENDPOINT);
+});
+
+allPosts.addEventListener("click", async () => {
+  activeButton(allPosts);
+  fetchPosts("/social/posts");
+});
