@@ -1,6 +1,8 @@
 import { get } from "../services/apiClient.js";
 import { showError } from "../services/errors.js";
 
+// fetch posts
+
 const DEFAULT_ENDPOINT = "/social/posts/following";
 
 const filteredPosts = document.getElementById("filtered-posts");
@@ -14,6 +16,8 @@ async function fetchPosts(endpoint) {
     showError(error.message || "Something went wrong");
   }
 }
+
+// display posts
 
 async function renderPosts(posts) {
   const container = document.getElementById("posts-feed");
@@ -34,7 +38,6 @@ async function renderPosts(posts) {
 
     const username = document.createElement("h3");
     username.textContent = post.author;
-
     linkUser.appendChild(username);
 
     const media = document.createElement("img");
@@ -56,12 +59,15 @@ async function renderPosts(posts) {
   });
 }
 
+// UI handling
+
 function activeButton(activeButton) {
   filteredPosts.classList.remove("selected");
   allPosts.classList.remove("selected");
-
   activeButton.classList.add("selected");
 }
+
+// run code
 
 async function initFeed() {
   activeButton(filteredPosts);
@@ -79,3 +85,5 @@ allPosts.addEventListener("click", async () => {
   activeButton(allPosts);
   fetchPosts("/social/posts");
 });
+
+// search logic
