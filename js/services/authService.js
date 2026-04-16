@@ -1,4 +1,5 @@
 import { post } from "./apiClient.js";
+import { showError } from "./errors.js";
 
 const LOGIN_ENDPOINT = "/auth/login";
 
@@ -15,6 +16,7 @@ export async function loginUser(credentials) {
       throw new Error("Login successful, but no access token received.");
     }
   } catch (error) {
+    showError(error.message || "Login failed");
     throw error;
   }
 }
@@ -22,5 +24,4 @@ export async function loginUser(credentials) {
 export function logoutUser() {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("profile");
-  console.log("User has been logged out.");
 }
