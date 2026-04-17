@@ -39,7 +39,7 @@ async function handleRegistration() {
   // send request
   try {
     await post("/auth/register", body);
-    window.location.href = "../../feed.html";
+    window.location.href = "../../login.html";
   } catch (error) {
     showError(error.message || "Registration failed");
   }
