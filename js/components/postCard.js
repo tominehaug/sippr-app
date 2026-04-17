@@ -6,7 +6,7 @@ export function createPostCard(post, options = {}) {
 
   if (clickable) {
     postWrapper.addEventListener("click", () => {
-      window.location.href = `post.html?id=${post.id}`;
+      window.location.href = `single-post.html?id=${post.id}`;
     });
   }
 
