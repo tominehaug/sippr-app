@@ -6,7 +6,7 @@ export class ApiError extends Error {
   }
 }
 
-export function showError(message, timeout = 3000) {
+export function showError(message, timeout = 8000) {
   const error = document.createElement("div");
   error.classList.add("error");
 
