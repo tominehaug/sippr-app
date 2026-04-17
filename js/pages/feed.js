@@ -12,7 +12,8 @@ const allPosts = document.getElementById("all-posts");
 async function fetchPosts(endpoint) {
   try {
     const data = await get(endpoint);
-    renderPosts(data);
+    const posts = data.data;
+    renderPosts(posts);
   } catch (error) {
     showError(error.message || "Something went wrong");
   }
