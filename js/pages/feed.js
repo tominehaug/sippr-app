@@ -4,6 +4,7 @@ import { createPostCard } from "../components/postCard.js";
 
 const DEFAULT_ENDPOINT = "/social/posts/following";
 let currentEndpoint = DEFAULT_ENDPOINT;
+const PAGE_LIMIT = 10;
 
 const filteredPosts = document.getElementById("filtered-posts");
 const allPosts = document.getElementById("all-posts");
@@ -18,7 +19,9 @@ async function fetchPosts(endpoint, page = 1) {
   if (isFetching || isLastPage) return;
   try {
     isFetching = true;
-    const data = await get(`${endpoint}?page=${page}`);
+    const data = await get(
+      `${endpoint}?page=${page}&limit=${PAGE_LIMIT}&sort=created&sortOrder=desc`,
+    );
     const posts = data.data;
     renderPosts(posts, page);
 
@@ -34,7 +37,7 @@ async function fetchPosts(endpoint, page = 1) {
 
 // load and display posts
 
-async function renderPosts(posts) {
+async function renderPosts(posts, page) {
   const container = document.getElementById("posts-feed");
   if (page === 1) {
     container.innerHTML = "";
@@ -50,7 +53,7 @@ window.addEventListener("scroll", () => {
     window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
 
   if (nearBottom) {
-    fetchPosts(endpoint, currentPage + 1);
+    fetchPosts(currentEndpoint, currentPage + 1);
   }
 });
 
@@ -66,7 +69,7 @@ function activeButton(activeButton) {
 
 async function initFeed() {
   activeButton(filteredPosts);
-  await fetchPosts(DEFAULT_ENDPOINT);
+  await fetchPosts(DEFAULT_ENDPOINT, 1);
 }
 
 document.addEventListener("DOMContentLoaded", initFeed);
@@ -76,7 +79,7 @@ filteredPosts.addEventListener("click", async () => {
   isLastPage = false;
 
   activeButton(filteredPosts);
-  fetchPosts(DEFAULT_ENDPOINT);
+  fetchPosts(DEFAULT_ENDPOINT, 1);
 });
 
 allPosts.addEventListener("click", async () => {
@@ -84,7 +87,7 @@ allPosts.addEventListener("click", async () => {
   isLastPage = false;
 
   activeButton(allPosts);
-  fetchPosts("/social/posts");
+  fetchPosts("/social/posts", 1);
 });
 
 // search logic
