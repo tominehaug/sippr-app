@@ -7,3 +7,5 @@ async function renderSinglePost(post) {
   const postCard = createPostCard(post);
   container.appendChild(postCard);
 }
+
+document.addEventListener("DOMContentLoaded", renderSinglePost);
