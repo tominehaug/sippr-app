@@ -1,6 +1,8 @@
 import { get } from "../services/apiClient.js";
 import { showError } from "../services/errors.js";
 import { createPostCard } from "../components/postCard.js";
+import { renderHeader } from "../components/header.js";
+import { renderFooter } from "../components/footerNav.js";
 
 const DEFAULT_ENDPOINT = "/social/posts/following";
 let currentEndpoint = DEFAULT_ENDPOINT;
@@ -20,7 +22,7 @@ async function fetchPosts(endpoint, page = 1) {
   try {
     isFetching = true;
     const data = await get(
-      `${endpoint}?page=${page}&limit=${PAGE_LIMIT}&sort=created&sortOrder=desc`,
+      `${endpoint}?page=${page}&limit=${PAGE_LIMIT}&sort=created&sortOrder=desc&_author=true`,
     );
     const posts = data.data;
     renderPosts(posts, page);
@@ -72,7 +74,11 @@ async function initFeed() {
   await fetchPosts(DEFAULT_ENDPOINT, 1);
 }
 
-document.addEventListener("DOMContentLoaded", initFeed);
+document.addEventListener("DOMContentLoaded", () => {
+  initFeed();
+  renderHeader();
+  renderFooter();
+});
 
 filteredPosts.addEventListener("click", async () => {
   currentPage = 1;
