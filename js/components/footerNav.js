@@ -15,6 +15,7 @@ export function renderFooter() {
 
   footer.innerHTML = `
     <a href="create-post.html"><i class="fa-solid fa-plus"></i></a>
+    <a href="feed.html">
       <img
         src="assets/juice_circle.svg"
         alt="keep scrolling with this juice box"
@@ -22,5 +23,6 @@ export function renderFooter() {
         height="46"
         width="46"
       />
+    </a>
     <a href="profile.html?user=${username}"><i class="fa-solid fa-user"></i></a>`;
 }
