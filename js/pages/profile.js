@@ -1,20 +1,23 @@
 import { get } from "../services/apiClient.js";
+import { put } from "../services/apiClient.js";
 import { showError } from "../services/errors.js";
 import { createPostCard } from "../components/postCard.js";
 import { renderHeader } from "../components/header.js";
 import { renderFooter } from "../components/footerNav.js";
-import { logoutUser } from "../services/authService.js";
 
 const params = new URLSearchParams(window.location.search);
-const user =
-  params.get("user") || JSON.parse(localStorage.getItem("profile"))?.name;
+const loggedInUser = JSON.parse(localStorage.getItem("profile"))?.name;
+const userProfile = params.get("user");
+
+let fullProfile = [];
 
 // fetch profile and posts
 
 async function fetchUserInfo() {
   try {
-    const data = await get(`/social/profiles/${user}`);
-    const profile = data.data;
+    const data = await get(`/social/profiles/${userProfile}`);
+    fullProfile = data;
+    const profile = fullProfile.data;
 
     renderProfileHeader(profile);
   } catch (error) {
@@ -35,7 +38,7 @@ async function fetchUserPosts(page = 1) {
   try {
     isFetching = true;
     const data = await get(
-      `/social/profiles/${user}/posts?page=${page}&limit=${PAGE_LIMIT}&sort=created&sortOrder=desc`,
+      `/social/profiles/${userProfile}/posts?page=${page}&limit=${PAGE_LIMIT}&sort=created&sortOrder=desc`,
     );
     const posts = data.data;
     renderProfilePosts(posts, page);
@@ -58,6 +61,12 @@ function renderProfileHeader(profile) {
   avatar.src = profile.avatar.url;
   avatar.alt = "profile picture";
 
+  if (loggedInUser !== userProfile) {
+    const followBtn = document.createElement("button");
+    followBtn.classList.add("follow-btn");
+    profileHeader.appendChild(followBtn);
+  }
+
   const username = document.createElement("h1");
   username.textContent = profile.name;
 
@@ -68,10 +77,10 @@ function renderProfileHeader(profile) {
   following.innerHTML = `<div><p>Followers</p><p class="follow-count"></p></div><div><p>Following</p><p class="follower-count"></p></div>`;
   following.classList.add("following");
 
-  const followerCount = document.getElementsByClassName("follow-count");
+  const followerCount = document.getElementsByClassName(".follow-count");
   followerCount.textContent = profile._count.followers;
 
-  const followingCount = document.getElementsByClassName("follower-count");
+  const followingCount = document.getElementsByClassName(".follower-count");
   followingCount.textContent = profile._count.following;
 
   profileHeader.appendChild(avatar);
@@ -102,6 +111,37 @@ window.addEventListener("scroll", () => {
   }
 });
 
+// follow/unfollow
+
+async function fetchFollowing() {
+  const data = await get(`/social/profiles/${loggedInUser}?_following=true`);
+  const following = data.data.following.map((user) => user.name);
+
+  followHandling(following);
+}
+
+function followHandling(following) {
+  const followBtn = document.querySelector(".follow-btn");
+
+  if (!followBtn) return;
+
+  const isFollowing = following.includes(userProfile);
+
+  followBtn.textContent = isFollowing ? "Following" : "Follow";
+
+  if (isFollowing) {
+    followBtn.onclick = async () => {
+      await put(`/social/profiles/${userProfile}/follow`);
+    };
+  } else {
+    followBtn.onclick = async () => {
+      await put(`/social/profiles/${userProfile}/unfollow`);
+    };
+  }
+
+  fetchFollowing();
+}
+
 // run code
 
 function initComponents() {
@@ -112,14 +152,10 @@ function initComponents() {
 async function initProfilePage() {
   await fetchUserInfo();
   await fetchUserPosts();
+  await fetchFollowing();
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
   initComponents();
   await initProfilePage();
 });
-
-// log out user
-
-const logOut = document.getElementById("logout");
-logOut.addEventListener("click", logoutUser);
