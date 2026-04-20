@@ -3,6 +3,7 @@ import { showError } from "../services/errors.js";
 import { createPostCard } from "../components/postCard.js";
 import { renderHeader } from "../components/header.js";
 import { renderFooter } from "../components/footerNav.js";
+import { logoutUser } from "../services/authService.js";
 
 const params = new URLSearchParams(window.location.search);
 const user =
@@ -117,3 +118,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   initComponents();
   await initProfilePage();
 });
+
+// log out user
+
+const logOut = document.getElementById("logout");
+logOut.addEventListener("click", logoutUser);
