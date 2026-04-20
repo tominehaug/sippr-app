@@ -5,8 +5,10 @@ import { renderHeader } from "../components/header.js";
 import { renderFooter } from "../components/footerNav.js";
 
 const DEFAULT_ENDPOINT = "/social/posts/following";
-let currentEndpoint = DEFAULT_ENDPOINT;
 const PAGE_LIMIT = 10;
+
+let currentEndpoint = DEFAULT_ENDPOINT;
+let currentPosts = [];
 
 const filteredPosts = document.getElementById("filtered-posts");
 const allPosts = document.getElementById("all-posts");
@@ -25,7 +27,8 @@ async function fetchPosts(endpoint, page = 1) {
       `${endpoint}?page=${page}&limit=${PAGE_LIMIT}&sort=created&sortOrder=desc&_author=true`,
     );
     const posts = data.data;
-    renderPosts(posts, page);
+    currentPosts = page === 1 ? posts : [...currentPosts, ...posts];
+    renderPosts(currentPosts, page);
 
     currentPage = data.meta.currentPage;
     isLastPage = data.meta.isLastPage;
@@ -67,6 +70,56 @@ function activeButton(activeButton) {
   activeButton.classList.add("selected");
 }
 
+// search logic
+
+function handleSearchClick(e) {
+  if (e.target.id === "search-btn") {
+    openSearch();
+  } else if (!e.target.closest("#searchForm")) {
+    closeSearch();
+  }
+}
+
+function openSearch() {
+  const header = document.querySelector("header");
+
+  header.innerHTML = `
+  <form id="searchForm">
+    <label for="search-input" class="visually-hidden">Search Posts</label>
+    <input type="search" name="search-input" id="search-input" placeholder="Search..." />
+    <button type="submit"><i class="fa-solid fa-magnifying-glass" id="search-bar"></i></button>
+  </form>`;
+
+  const input = document.getElementById("search-input");
+  input.focus();
+
+  input.addEventListener("input", (event) => {
+    const searchTerm = event.target.value.toLowerCase().trim();
+    conveySearch(searchTerm);
+  });
+}
+
+function conveySearch(searchTerm) {
+  const result = currentPosts.filter((post) => {
+    return (
+      post.title?.toLowerCase().includes(searchTerm) ||
+      post.body?.toLowerCase().includes(searchTerm) ||
+      post.author?.name?.toLowerCase().includes(searchTerm)
+    );
+  });
+  console.log(result);
+  renderPosts(result, 1);
+}
+
+function initSearch() {
+  document.addEventListener("click", handleSearchClick);
+}
+
+function closeSearch() {
+  renderHeader();
+  renderPosts(currentPosts, 1);
+}
+
 // run code
 
 async function initFeed() {
@@ -74,15 +127,17 @@ async function initFeed() {
   await fetchPosts(DEFAULT_ENDPOINT, 1);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  initFeed();
+document.addEventListener("DOMContentLoaded", async () => {
   renderHeader();
   renderFooter();
+  initSearch();
+  await initFeed();
 });
 
 filteredPosts.addEventListener("click", async () => {
   currentPage = 1;
   isLastPage = false;
+  currentEndpoint = DEFAULT_ENDPOINT;
 
   activeButton(filteredPosts);
   fetchPosts(DEFAULT_ENDPOINT, 1);
@@ -91,9 +146,8 @@ filteredPosts.addEventListener("click", async () => {
 allPosts.addEventListener("click", async () => {
   currentPage = 1;
   isLastPage = false;
+  currentEndpoint = "/social/posts";
 
   activeButton(allPosts);
   fetchPosts("/social/posts", 1);
 });
-
-// search logic
