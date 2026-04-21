@@ -23,7 +23,10 @@ async function handleLogin() {
   // save credentials
   try {
     await loginUser(body);
-    window.location.href = "../../feed.html";
+    showMessage("Login was successful!");
+    setTimeout(() => {
+      window.location.href = "../../feed.html";
+    }, 1000);
   } catch (error) {
     showError(error.message || "Login failed");
   }
