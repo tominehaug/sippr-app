@@ -21,6 +21,15 @@ async function renderSinglePost(post) {
 
   const postCard = createPostCard(post);
   container.appendChild(postCard);
+
+  const creator = post.author.name;
+  const loggedInUser = JSON.parse(localStorage.getItem("profile"))?.name;
+
+  if (creator === loggedInUser) {
+    const editIcon = document.createElement("i");
+    editIcon.class = "fa-solid fa-share-from-square";
+    container.appendChild(editIcon);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", fetchSinglePost);
