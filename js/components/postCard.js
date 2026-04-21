@@ -31,10 +31,14 @@ export function createPostCard(post, options = {}) {
   const caption = document.createElement("p");
   caption.textContent = post.body || "";
 
+  const date = document.createElement("p");
+  date.textContent = post.created;
+
   postWrapper.appendChild(linkUser);
   postWrapper.appendChild(media);
   postWrapper.appendChild(title);
   postWrapper.appendChild(caption);
+  postWrapper.appendChild(date);
 
   return postWrapper;
 }
