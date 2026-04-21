@@ -6,7 +6,6 @@ import { validateForm } from "../utils/validation.js";
 const editForm = document.getElementById("create-form");
 const params = new URLSearchParams(window.location.search);
 const postId = params.get("id");
-let body = {};
 
 async function fetchPost() {
   try {
@@ -37,7 +36,7 @@ editForm.addEventListener("submit", async (event) => {
 async function updatePost(form) {
   const formData = new FormData(form);
 
-  body = {
+  const body = {
     title: formData.get("title"),
     body: formData.get("caption"),
     media: {
@@ -65,14 +64,59 @@ async function updatePost(form) {
 // delete post
 
 const deleteBtn = document.getElementById("delete-btn");
-
-deleteBtn.addEventListener("click", deletePost);
-
-function deletePost(){
-    //alert and ask to confirm choice
-    try {
-        await del(`/social/posts/${postId}`, body)
-    } catch (error) {
-        showError(error.message || "Could not delete post. Try again later.")
-    }
+if (deleteBtn) {
+  deleteBtn.addEventListener("click", confirmAction);
 }
+
+function confirmAction() {
+  const alertDiv = document.createElement("div");
+
+  const alertTxt = document.createElement("p");
+  alertTxt.textContent = "Are you sure you want to delete this post?";
+
+  const confirmBtn = document.createElement("button");
+  confirmBtn.textContent = "Yes";
+
+  const returnBtn = document.createElement("button");
+  returnBtn.textContent = "No";
+
+  alertDiv.appendChild(alertTxt);
+  alertDiv.appendChild(confirmBtn);
+  alertDiv.appendChild(returnBtn);
+
+  confirmBtn.addEventListener("click", async () => {
+    confirmBtn.disabled = true;
+
+    try {
+      await deletePost();
+      alertDiv.remove();
+      showMessage("Post is deleted.");
+      setTimeout(() => {
+        window.location.href = "../../feed.html";
+      }, 1000);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      deleteBtn.disabled = false;
+      confirmBtn.disabled = false;
+    }
+  });
+
+  returnBtn.addEventListener("click", () => {
+    alertDiv.remove();
+    deleteBtn.disabled = false;
+  });
+}
+
+async function deletePost() {
+  try {
+    await del(`/social/posts/${postId}`);
+  } catch (error) {
+    showError(error.message || "Could not delete post. Try again later.");
+    throw error;
+  }
+}
+
+// init
+
+document.addEventListener("DOMContentLoaded", fetchPost);
