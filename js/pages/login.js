@@ -1,6 +1,7 @@
 import { validateForm } from "../utils/validation.js";
 import { loginUser } from "../services/authService.js";
 import { showError } from "../services/errors.js";
+import { showMessage } from "../services/ui-messages.js";
 
 const loginForm = document.getElementById("login-form");
 
