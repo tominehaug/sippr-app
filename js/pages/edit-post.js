@@ -1,4 +1,4 @@
-import { post } from "../services/apiClient.js";
+import { put, del } from "../services/apiClient.js";
 import { showError } from "../services/errors.js";
 import { showMessage } from "../services/ui-messages.js";
 import { validateForm } from "../utils/validation.js";
@@ -6,6 +6,7 @@ import { validateForm } from "../utils/validation.js";
 const editForm = document.getElementById("create-form");
 const params = new URLSearchParams(window.location.search);
 const postId = params.get("id");
+let body = {};
 
 async function fetchPost() {
   try {
@@ -36,7 +37,7 @@ editForm.addEventListener("submit", async (event) => {
 async function updatePost(form) {
   const formData = new FormData(form);
 
-  const body = {
+  body = {
     title: formData.get("title"),
     body: formData.get("caption"),
     media: {
@@ -62,3 +63,16 @@ async function updatePost(form) {
 }
 
 // delete post
+
+const deleteBtn = document.getElementById("delete-btn");
+
+deleteBtn.addEventListener("click", deletePost);
+
+function deletePost(){
+    //alert and ask to confirm choice
+    try {
+        await del(`/social/posts/${postId}`, body)
+    } catch (error) {
+        showError(error.message || "Could not delete post. Try again later.")
+    }
+}
