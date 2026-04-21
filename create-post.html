@@ -10,14 +10,33 @@
   </head>
   <body>
     <header></header>
-    <form>
-      <label for="img-url">Image url</label>
-      <input type="text" name="img-url" id="img-url" />
+    <form id="create-form" novalidate>
+      <fieldset>
+        <legend>Upload image</legend>
+        <label for="img-url" class="visually-hidden">Image url</label>
+        <input
+          type="text"
+          name="img-url"
+          id="img-url"
+          placeholder="input url"
+        />
+        <div class="error"></div>
+        <label for="img-url" class="visually-hidden">Image alt text</label>
+        <input
+          type="text"
+          id="img-alt"
+          name="img-alt"
+          placeholder="input alt-text"
+        />
+        <div class="error"></div>
+      </fieldset>
+      <label for="title">Title</label>
+      <input type="text" name="title" id="title" required />
       <div class="error"></div>
       <label for="caption">Caption</label>
       <input type="text" name="caption" id="caption" />
       <div class="error"></div>
-      <button type="submit">Upload</button>
+      <button id="submit-btn" type="submit">Upload</button>
     </form>
   </body>
 </html>
