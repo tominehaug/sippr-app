@@ -9,25 +9,16 @@
     <h1>Register</h1>
     <form id="registration-form" novalidate>
       <label for="profileImg">Profile picture URL</label>
-      <input
-        type="text"
-        name="profileImg"
-        id="profileImg"
-        value="https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_1280.png"
-        required
-      />
+      <input type="text" name="profileImg" id="profileImg" />
       <div class="error"></div>
       <label for="email">E-mail</label>
       <input type="email" name="email" id="email" required />
       <div class="error"></div>
-      <label for="n-username">Username</label>
-      <input
-        type="text"
-        name="n-username"
-        id="n-username"
-        required
-        minlength="3"
-      />
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" required minlength="3" />
+      <div class="error"></div>
+      <label for="bio">Bio</label>
+      <input type="text" name="bio" id="bio" />
       <div class="error"></div>
       <label for="password">Password</label>
       <input

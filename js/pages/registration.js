@@ -1,5 +1,7 @@
-import { validateForm } from "../utils/validation";
+import { validateForm } from "../utils/validation.js";
 import { post } from "../services/apiClient.js";
+import { showMessage } from "../services/ui-messages.js";
+import { showError } from "../services/errors.js";
 
 const registrationForm = document.getElementById("registration-form");
 
@@ -35,11 +37,20 @@ async function handleRegistration() {
     name: formData.get("username"),
     email: formData.get("email"),
     password: formData.get("password"),
+    bio: formData.get("bio") || "",
+    avatar: {
+      url: formData.get("profileImg") || "",
+      alt: "profile image",
+    },
   };
+  console.log("REGISTER BODY:", body);
   // send request
   try {
     await post("/auth/register", body);
-    window.location.href = "../../login.html";
+    showMessage("Registration was successful!");
+    setTimeout(() => {
+      window.location.href = "../../login.html";
+    }, 1000);
   } catch (error) {
     showError(error.message || "Registration failed");
   }
