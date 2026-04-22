@@ -13,6 +13,8 @@ let currentPosts = [];
 const filteredPosts = document.getElementById("filtered-posts");
 const allPosts = document.getElementById("all-posts");
 
+const container = document.getElementById("posts-feed");
+
 // fetch posts
 
 let currentPage = 1;
@@ -42,10 +44,13 @@ async function fetchPosts(endpoint, page = 1) {
 
 // load and display posts
 
-async function renderPosts(posts, page) {
-  const container = document.getElementById("posts-feed");
+function renderPosts(posts, page) {
   if (page === 1) {
     container.innerHTML = "";
+  }
+  if (posts.length === 0) {
+    container.textContent = "No posts yet. Find users to follow!";
+    return;
   }
   posts.forEach((post) => {
     const postCard = createPostCard(post);
@@ -140,6 +145,7 @@ filteredPosts.addEventListener("click", async () => {
   currentEndpoint = DEFAULT_ENDPOINT;
 
   activeButton(filteredPosts);
+  container.innerHTML = "Loading...";
   fetchPosts(DEFAULT_ENDPOINT, 1);
 });
 
@@ -149,5 +155,8 @@ allPosts.addEventListener("click", async () => {
   currentEndpoint = "/social/posts";
 
   activeButton(allPosts);
+
+  container.innerHTML = "Loading...";
+
   fetchPosts("/social/posts", 1);
 });
