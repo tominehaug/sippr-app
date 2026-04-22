@@ -9,17 +9,15 @@ const params = new URLSearchParams(window.location.search);
 const loggedInUser = JSON.parse(localStorage.getItem("profile"))?.name;
 const userProfile = params.get("user");
 
-let fullProfile = [];
-
 // fetch profile and posts
 
 async function fetchUserInfo() {
   try {
-    const data = await get(`/social/profiles/${userProfile}`);
-    fullProfile = data;
-    const profile = fullProfile.data;
+    const data = await get(`/social/profiles/${userProfile}?_following=true`);
+    const profile = data.data;
 
-    renderProfileHeader(profile);
+    const following = await fetchFollowingList();
+    renderProfileHeader(profile, following);
   } catch (error) {
     showError(
       error.message || "Something went wrong when fetching the user info.",
@@ -54,18 +52,16 @@ async function fetchUserPosts(page = 1) {
 
 // display profile
 
-function renderProfileHeader(profile) {
+function renderProfileHeader(profile, following) {
   const profileHeader = document.getElementById("profile-header");
 
-  const avatar = document.createElement("img");
-  avatar.src = profile.avatar.url;
-  avatar.alt = "profile picture";
+  profileHeader.innerHTML = "";
 
-  if (loggedInUser !== userProfile) {
-    const followBtn = document.createElement("button");
-    followBtn.classList.add("follow-btn");
-    profileHeader.appendChild(followBtn);
-  }
+  const avatar = document.createElement("img");
+  avatar.src =
+    profile.avatar?.url ||
+    "https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_1280.png";
+  avatar.alt = "profile picture";
 
   const username = document.createElement("h1");
   username.textContent = profile.name;
@@ -73,20 +69,29 @@ function renderProfileHeader(profile) {
   const bio = document.createElement("p");
   bio.textContent = profile.bio;
 
-  const following = document.createElement("div");
-  following.innerHTML = `<div><p>Followers</p><p class="follow-count"></p></div><div><p>Following</p><p class="follower-count"></p></div>`;
-  following.classList.add("following");
+  const stats = document.createElement("div");
+  stats.classList.add("following");
 
-  const followerCount = document.getElementsByClassName(".follow-count");
-  followerCount.textContent = profile._count.followers;
+  const followers = document.createElement("p");
+  followers.textContent = `Followers: ${profile._count.followers}`;
 
-  const followingCount = document.getElementsByClassName(".follower-count");
-  followingCount.textContent = profile._count.following;
+  const follows = document.createElement("p");
+  follows.textContent = `Following: ${profile._count.following}`;
+
+  stats.appendChild(followers);
+  stats.appendChild(follows);
 
   profileHeader.appendChild(avatar);
   profileHeader.appendChild(username);
   profileHeader.appendChild(bio);
-  profileHeader.appendChild(following);
+  profileHeader.appendChild(stats);
+
+  if (loggedInUser !== userProfile) {
+    const followBtn = document.createElement("button");
+    followBtn.classList.add("follow-btn");
+    profileHeader.appendChild(followBtn);
+    followHandling(following, followBtn);
+  }
 }
 
 function renderProfilePosts(posts, page) {
@@ -113,33 +118,34 @@ window.addEventListener("scroll", () => {
 
 // follow/unfollow
 
-async function fetchFollowing() {
+async function fetchFollowingList() {
   const data = await get(`/social/profiles/${loggedInUser}?_following=true`);
-  const following = data.data.following.map((user) => user.name);
+  const following = data.data.following?.map((user) => user.name) || [];
 
-  followHandling(following);
+  return following;
 }
 
-function followHandling(following) {
-  const followBtn = document.querySelector(".follow-btn");
-
+function followHandling(following, followBtn) {
   if (!followBtn) return;
 
   const isFollowing = following.includes(userProfile);
-
   followBtn.textContent = isFollowing ? "Following" : "Follow";
 
-  if (isFollowing) {
-    followBtn.onclick = async () => {
-      await put(`/social/profiles/${userProfile}/follow`);
-    };
-  } else {
-    followBtn.onclick = async () => {
-      await put(`/social/profiles/${userProfile}/unfollow`);
-    };
-  }
-
-  fetchFollowing();
+  followBtn.onclick = async () => {
+    followBtn.disabled = true;
+    try {
+      if (isFollowing) {
+        await put(`/social/profiles/${userProfile}/unfollow`);
+      } else {
+        await put(`/social/profiles/${userProfile}/follow`);
+      }
+      await fetchFollowing();
+    } catch (error) {
+      showError(error.message || "Failed to update following.");
+    } finally {
+      followBtn.disabled = false;
+    }
+  };
 }
 
 // run code
@@ -151,8 +157,8 @@ function initComponents() {
 
 async function initProfilePage() {
   await fetchUserInfo();
-  await fetchUserPosts();
   await fetchFollowing();
+  await fetchUserPosts();
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
