@@ -36,7 +36,7 @@ async function fetchUserPosts(page = 1) {
   try {
     isFetching = true;
     const data = await get(
-      `/social/profiles/${userProfile}/posts?page=${page}&limit=${PAGE_LIMIT}&sort=created&sortOrder=desc`,
+      `/social/profiles/${userProfile}/posts?page=${page}&limit=${PAGE_LIMIT}&sort=created&sortOrder=desc&_author=true`,
     );
     const posts = data.data;
     renderProfilePosts(posts, page);
@@ -139,7 +139,7 @@ function followHandling(following, followBtn) {
       } else {
         await put(`/social/profiles/${userProfile}/follow`);
       }
-      await fetchFollowing();
+      await fetchFollowingList();
     } catch (error) {
       showError(error.message || "Failed to update following.");
     } finally {
@@ -157,7 +157,7 @@ function initComponents() {
 
 async function initProfilePage() {
   await fetchUserInfo();
-  await fetchFollowing();
+  await fetchFollowingList();
   await fetchUserPosts();
 }
 
