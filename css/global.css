@@ -1,6 +1,9 @@
 * {
   margin: 0;
   box-sizing: border-box;
+  font-family:
+    "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans",
+    Arial, sans-serif;
 }
 
 .visually-hidden {
@@ -14,6 +17,15 @@
 a {
   all: unset;
   cursor: pointer;
+}
+
+/* form styles */
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 /* header and footer styles */
@@ -68,9 +80,6 @@ header img {
   border: none;
   background: none;
   font-size: 22px;
-  font-family:
-    "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
 .post-img {
@@ -82,6 +91,7 @@ header img {
 /* welcome page styles */
 
 .welcome-main {
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -93,4 +103,16 @@ header img {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.primary-button {
+  background: none;
+  border: solid 2px #c9df22;
+  display: block;
+  padding: px;
+  font-size: 35px;
+}
+
+.primary-button:hover {
+  background-color: #c9df22;
 }
