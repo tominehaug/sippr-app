@@ -1,4 +1,6 @@
 const path = window.location.pathname;
+const params = new URLSearchParams(window.location.search);
+const userProfile = params.get("user");
 
 export function createPostCard(post, options = {}) {
   const { clickable = true } = options;
@@ -42,6 +44,10 @@ export function createPostCard(post, options = {}) {
     const date = document.createElement("p");
     date.textContent = post.created.slice(0, 10);
     postWrapper.appendChild(date);
+  }
+
+  if (userProfile === post.author.name && path.includes("profile-post.html")) {
+    linkUser.remove();
   }
 
   return postWrapper;
