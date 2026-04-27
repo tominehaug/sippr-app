@@ -12,6 +12,7 @@
       <label for="email">E-mail</label>
       <input type="text" name="email" id="email" required />
       <div class="error"></div>
+      <br />
       <label for="password">Password</label>
       <input
         type="password"
@@ -21,9 +22,12 @@
         minlength="8"
       />
       <div class="error"></div>
-      <button type="submit" id="signin">Sign in</button>
+      <button type="submit" id="signin" class="primary-button">Sign in</button>
     </form>
-    <p>Not registered? <a href="register.html">Create a user here.</a></p>
+    <p>
+      Not registered?
+      <a href="register.html" class="selected">Create a user here.</a>
+    </p>
   </body>
   <script type="module" src="js/pages/login.js"></script>
 </html>
