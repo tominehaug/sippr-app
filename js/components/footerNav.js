@@ -20,8 +20,8 @@ export function renderFooter() {
         src="assets/juice_circle.svg"
         alt="keep scrolling with this juice box"
         class="juice-icon"
-        height="46"
-        width="46"
+        height="110"
+        width="110"
       />
     </a>
     <a href="profile.html?user=${username}"><i class="fa-solid fa-user"></i></a>`;
