@@ -6,6 +6,20 @@
     Arial, sans-serif;
 }
 
+.error-top {
+  color: #b90303;
+  text-align: center;
+  font-size: 25px;
+  padding: 25px;
+}
+
+.success {
+  color: #616c0a;
+  text-align: center;
+  font-size: 25px;
+  padding: 25px;
+}
+
 .visually-hidden {
   display: none;
 }
@@ -19,13 +33,42 @@ a {
   cursor: pointer;
 }
 
+p {
+  font-size: 20px;
+}
+
 /* form styles */
 
-form {
+.registration-form,
+.login-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+label {
+  font-size: 20px;
+}
+
+input {
+  padding: 10px;
+  margin: 5px 0 10px 0;
+  box-sizing: border-box;
+  border: 1.5px solid #acacac;
+  border-radius: 10px;
+  outline: none;
+  font-size: 20px;
+}
+
+input:focus {
+  border: 2.5px solid #c9df22;
+}
+
+.error {
+  color: #b90303;
+  text-align: center;
+  font-size: 20px;
 }
 
 /* header and footer styles */
@@ -115,4 +158,21 @@ header img {
 
 .primary-button:hover {
   background-color: #c9df22;
+}
+
+/* login and registration pages styles */
+
+.login-main,
+.register-main {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+#signin,
+#signup {
+  margin-top: 20px;
 }
