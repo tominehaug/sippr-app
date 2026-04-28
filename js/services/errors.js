@@ -8,7 +8,7 @@ export class ApiError extends Error {
 
 export function showError(message, timeout = 8000) {
   const error = document.createElement("div");
-  error.classList.add("error");
+  error.classList.add("error-top");
 
   error.textContent = message;
   document.body.prepend(error);
