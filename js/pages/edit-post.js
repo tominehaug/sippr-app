@@ -1,9 +1,11 @@
-import { put, del } from "../services/apiClient.js";
+import { get, put, del } from "../services/apiClient.js";
 import { showError } from "../services/errors.js";
 import { showMessage } from "../services/ui-messages.js";
 import { validateForm } from "../utils/validation.js";
+import { renderHeader } from "../components/header.js";
+import { renderFooter } from "../components/footerNav.js";
 
-const editForm = document.getElementById("create-form");
+const editForm = document.getElementById("edit-form");
 const params = new URLSearchParams(window.location.search);
 const postId = params.get("id");
 
@@ -19,7 +21,7 @@ async function fetchPost() {
 
 async function renderEditForm(post) {
   document.getElementById("img-url").value = post.media.url || "";
-  document.getElementById("img-url").value = post.media.alt || "";
+  document.getElementById("img-alt").value = post.media.alt || "";
   document.getElementById("title").value = post.title || "";
   document.getElementById("caption").value = post.body || "";
 }
@@ -45,7 +47,7 @@ async function updatePost(form) {
     },
   };
 
-  const submitBtn = createForm.getElementById("submit-btn");
+  const submitBtn = document.getElementById("submit-btn");
   submitBtn.disabled = true;
 
   try {
@@ -119,4 +121,8 @@ async function deletePost() {
 
 // init
 
-document.addEventListener("DOMContentLoaded", fetchPost);
+document.addEventListener("DOMContentLoaded", async () => {
+  renderHeader();
+  renderFooter();
+  await fetchPost();
+});
