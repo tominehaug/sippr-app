@@ -28,7 +28,7 @@ export function createPostCard(post, options = {}) {
   const media = document.createElement("img");
   media.src = post.media?.url || "";
   media.alt = post.media?.alt || "";
-  media.className.add = "post-img";
+  media.classList.add("post-img");
 
   const title = document.createElement("h2");
   title.textContent = post.title;
