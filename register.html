@@ -6,42 +6,53 @@
     <link rel="stylesheet" href="css/global.css" />
   </head>
   <body>
-    <header></header>
-    <h1>Register</h1>
-    <form id="registration-form" novalidate>
-      <label for="profileImg">Profile picture URL</label>
-      <input type="text" name="profileImg" id="profileImg" />
-      <div class="error"></div>
-      <label for="email">E-mail</label>
-      <input type="email" name="email" id="email" required />
-      <div class="error"></div>
-      <label for="username">Username</label>
-      <input type="text" name="username" id="username" required minlength="3" />
-      <div class="error"></div>
-      <label for="bio">Bio</label>
-      <input type="text" name="bio" id="bio" />
-      <div class="error"></div>
-      <label for="password">Password</label>
-      <input
-        type="password"
-        name="password"
-        id="password"
-        required
-        minlength="8"
-      />
-      <div class="error"></div>
-      <label for="confirmPwd">Repeat password</label>
-      <input
-        type="password"
-        name="confirmPwd"
-        id="confirmPwd"
-        required
-        minlength="8"
-      />
-      <div class="pwd-error"></div>
-      <button type="submit" id="signup">Sign up</button>
-    </form>
-    <p>Already a user? <a href="login.html">Log in here.</a></p>
+    <main class="register-main">
+      <h1>Register</h1>
+      <form id="registration-form" novalidate>
+        <label for="profileImg">Profile picture URL</label>
+        <input type="text" name="profileImg" id="profileImg" />
+        <div class="error"></div>
+        <label for="email">E-mail</label>
+        <input type="email" name="email" id="email" required />
+        <div class="error"></div>
+        <label for="username">Username</label>
+        <input
+          type="text"
+          name="username"
+          id="username"
+          required
+          minlength="3"
+        />
+        <div class="error"></div>
+        <label for="bio">Bio</label>
+        <input type="text" name="bio" id="bio" />
+        <div class="error"></div>
+        <label for="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          required
+          minlength="8"
+        />
+        <div class="error"></div>
+        <label for="confirmPwd">Repeat password</label>
+        <input
+          type="password"
+          name="confirmPwd"
+          id="confirmPwd"
+          required
+          minlength="8"
+        />
+        <div class="pwd-error"></div>
+        <button type="submit" id="signup" class="primary-button">
+          Sign up
+        </button>
+      </form>
+      <p>
+        Already a user? <a href="login.html" class="selected">Log in here.</a>
+      </p>
+    </main>
     <script type="module" src="js/pages/registration.js"></script>
   </body>
 </html>

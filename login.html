@@ -6,28 +6,31 @@
     <link rel="stylesheet" href="css/global.css" />
   </head>
   <body>
-    <header></header>
-    <h1>Log in</h1>
-    <form id="login-form" novalidate>
-      <label for="email">E-mail</label>
-      <input type="text" name="email" id="email" required />
-      <div class="error"></div>
-      <br />
-      <label for="password">Password</label>
-      <input
-        type="password"
-        name="password"
-        id="password"
-        required
-        minlength="8"
-      />
-      <div class="error"></div>
-      <button type="submit" id="signin" class="primary-button">Sign in</button>
-    </form>
-    <p>
-      Not registered?
-      <a href="register.html" class="selected">Create a user here.</a>
-    </p>
+    <main class="login-main">
+      <h1>Log in</h1>
+      <form id="login-form" novalidate>
+        <label for="email">E-mail</label>
+        <input type="text" name="email" id="email" required />
+        <div class="error"></div>
+        <br />
+        <label for="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          required
+          minlength="8"
+        />
+        <div class="error"></div>
+        <button type="submit" id="signin" class="primary-button">
+          Sign in
+        </button>
+      </form>
+      <p>
+        Not registered?
+        <a href="register.html" class="selected">Create a user here.</a>
+      </p>
+    </main>
   </body>
   <script type="module" src="js/pages/login.js"></script>
 </html>
