@@ -26,11 +26,6 @@ export function createPostCard(post, options = {}) {
   username.classList.add("username");
   linkUser.appendChild(username);
 
-  const media = document.createElement("img");
-  media.src = post.media?.url || "";
-  media.alt = post.media?.alt || "";
-  media.classList.add("post-img");
-
   const title = document.createElement("h2");
   title.textContent = post.title;
 
@@ -38,7 +33,13 @@ export function createPostCard(post, options = {}) {
   caption.textContent = post.body || "";
 
   postWrapper.appendChild(linkUser);
-  postWrapper.appendChild(media);
+  if (post.media?.url) {
+    const media = document.createElement("img");
+    media.src = post.media.url;
+    media.alt = post.media.alt || "";
+    media.classList.add("post-img");
+    postWrapper.appendChild(media);
+  }
   postWrapper.appendChild(title);
   postWrapper.appendChild(caption);
 
