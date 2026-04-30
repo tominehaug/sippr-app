@@ -29,7 +29,7 @@ async function renderSinglePost(post) {
 
   if (creator === loggedInUser) {
     const editLink = document.createElement("a");
-    editLink.href = "../../edit-post.html";
+    editLink.href = `../../edit-post.html?id=${id}`;
     const editIcon = document.createElement("i");
     editIcon.classList.add("fa-solid", "fa-share-from-square");
     editLink.appendChild(editIcon);
