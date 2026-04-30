@@ -201,8 +201,12 @@ header img {
 .post h2,
 .post h3,
 .post p {
-  margin-left: 5px;
+  margin-left: 7px;
   margin-top: 3px;
+}
+
+.post h3 {
+  font-style: italic;
 }
 
 .username {
