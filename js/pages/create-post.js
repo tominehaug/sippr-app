@@ -18,15 +18,20 @@ createForm.addEventListener("submit", async (event) => {
 
 async function uploadPost(form) {
   const formData = new FormData(form);
+  const url = formData.get("img-url")?.trim();
+  const alt = formData.get("img-alt")?.trim();
 
   const body = {
     title: formData.get("title"),
     body: formData.get("caption"),
-    media: {
-      url: formData.get("img-url"),
-      alt: formData.get("img-alt"),
-    },
   };
+
+  if (url) {
+    body.media = {
+      url,
+      alt: alt || "",
+    };
+  }
 
   const submitBtn = document.getElementById("submit-btn");
   submitBtn.disabled = true;
