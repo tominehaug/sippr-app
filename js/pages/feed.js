@@ -30,7 +30,7 @@ async function fetchPosts(endpoint, page = 1) {
     );
     const posts = data.data;
     currentPosts = page === 1 ? posts : [...currentPosts, ...posts];
-    renderPosts(currentPosts, page);
+    renderPosts(posts, page);
 
     currentPage = data.meta.currentPage;
     isLastPage = data.meta.isLastPage;
