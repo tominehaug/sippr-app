@@ -2,6 +2,32 @@ import { post } from "./apiClient.js";
 
 const LOGIN_ENDPOINT = "/auth/login";
 
+/**
+ * Stores access token and in localStorage
+ * @param {Object} credentials
+ * @param {string} credentials.email
+ * @param {string} credentials.password
+ * @returns {Promise<object|undefined>} if login is successful, profile object is returned.
+ * @example
+ * 
+ js
+ * const profile = await loginUser({
+ *   email: "user@example.com",
+ *   password: "password"
+ * });
+ * // expected result: 
+ * {
+ *   name: "example123",
+ *   email: "user@example.com",
+ *   bio: "profile bio",
+ *   avatar: {
+ *     url: "avatar.jpg",
+ *     alt: "Profile picture"
+ *   },
+ *  ...
+ * }
+ */
+
 export async function loginUser(credentials) {
   const response = await post(LOGIN_ENDPOINT, credentials);
   const { accessToken, ...profile } = response.data;

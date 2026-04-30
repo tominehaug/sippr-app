@@ -16,6 +16,26 @@ registrationForm.addEventListener("submit", async (event) => {
   await handleRegistration();
 });
 
+/**
+ * Confirm password by checking if repeated password is the same as first password.
+ * @returns {boolean} true if the input from both password fields are matching, false if not
+ * @example
+ * 
+ js
+ * // password = "mypassword123"
+ * // confirmPwd = "mypassword123"
+ * checkMatchingPwd();
+ * // Expected result: true
+ * 
+ * @example
+ * 
+ js
+ * // password = "mypassword123"
+ * // confirmPwd = "differentpassword"
+ * checkMatchingPwd();
+ * // Expected result: false
+ */
+
 function checkMatchingPwd() {
   const password = registrationForm.elements.password.value;
   const confirm = registrationForm.elements.confirmPwd.value;
