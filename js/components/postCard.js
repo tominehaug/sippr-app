@@ -23,6 +23,7 @@ export function createPostCard(post, options = {}) {
 
   const username = document.createElement("h3");
   username.textContent = post.author.name;
+  username.classList.add("username");
   linkUser.appendChild(username);
 
   const media = document.createElement("img");
@@ -44,6 +45,7 @@ export function createPostCard(post, options = {}) {
   if (path.includes("single-post.html")) {
     const date = document.createElement("p");
     date.textContent = post.created.slice(0, 10);
+    date.classList.add("date");
     postWrapper.appendChild(date);
   }
 
