@@ -62,6 +62,7 @@ function renderProfileHeader(profile, following) {
     profile.avatar?.url ||
     "https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_1280.png";
   avatar.alt = "profile picture";
+  avatar.classList.add("avatar");
 
   const username = document.createElement("h1");
   username.textContent = profile.name;
@@ -88,7 +89,7 @@ function renderProfileHeader(profile, following) {
 
   if (loggedInUser !== userProfile) {
     const followBtn = document.createElement("button");
-    followBtn.classList.add("follow-btn");
+    followBtn.classList.add("primary-button");
     profileHeader.appendChild(followBtn);
     followHandling(following, followBtn);
   }
@@ -144,6 +145,7 @@ function followHandling(following, followBtn) {
       showError(error.message || "Failed to update following.");
     } finally {
       followBtn.disabled = false;
+      window.location.reload();
     }
   };
 }
