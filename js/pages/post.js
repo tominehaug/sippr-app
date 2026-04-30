@@ -1,3 +1,5 @@
+import { renderFooter } from "../components/footerNav.js";
+import { renderHeader } from "../components/header.js";
 import { createPostCard } from "../components/postCard.js";
 import { get } from "../services/apiClient.js";
 
@@ -26,10 +28,17 @@ async function renderSinglePost(post) {
   const loggedInUser = JSON.parse(localStorage.getItem("profile"))?.name;
 
   if (creator === loggedInUser) {
+    const editLink = document.createElement("a");
+    editLink.href = "../../edit-post.html";
     const editIcon = document.createElement("i");
-    editIcon.class = "fa-solid fa-share-from-square";
-    container.appendChild(editIcon);
+    editIcon.classList.add("fa-solid", "fa-share-from-square");
+    editLink.appendChild(editIcon);
+    container.appendChild(editLink);
   }
 }
 
-document.addEventListener("DOMContentLoaded", fetchSinglePost);
+document.addEventListener("DOMContentLoaded", async () => {
+  renderHeader();
+  renderFooter();
+  await fetchSinglePost();
+});
