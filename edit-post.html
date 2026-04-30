@@ -38,17 +38,17 @@
         <label for="caption">Caption</label>
         <input type="text" name="caption" id="caption" required />
         <div class="error"></div>
-        <button type="submit">Upload</button>
-        <div class="b-buttons-container">
+        <div class="button-div">
+          <button id="submit-btn" type="submit" class="primary-button">
+            Upload
+          </button>
           <button id="delete-btn" type="button">
             <i class="fa-regular fa-trash-can"></i>
             <span>Delete post</span>
           </button>
-          <button id="submit-btn" type="submit" class="primary-button">
-            Upload
-          </button>
         </div>
       </form>
     </main>
+    <script type="module" src="js/pages/edit-post.js"></script>
   </body>
 </html>
