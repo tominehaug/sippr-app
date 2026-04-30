@@ -41,7 +41,8 @@ p {
 
 #registration-form,
 #login-form,
-#create-form {
+#create-form,
+#edit-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -117,7 +118,7 @@ header img {
   width: auto;
 }
 
-/* welcome page styles */
+/* button styles */
 
 .button-div {
   display: flex;
@@ -126,15 +127,23 @@ header img {
 }
 
 .primary-button {
-  background: none;
+  background: white;
   border: solid 2px #c9df22;
   display: block;
-  padding: px;
+  padding: 10px;
   font-size: 35px;
 }
 
 .primary-button:hover {
   background-color: #c9df22;
+}
+
+#delete-btn {
+  background: none;
+  border: solid 2px #b96403;
+  display: block;
+  padding: 10px;
+  font-size: 35px;
 }
 
 /* login and registration pages styles */
@@ -217,4 +226,21 @@ header img {
   text-align: center;
   padding: 8px;
   font-size: 22px;
+}
+
+/* styles for profile */
+
+#profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: #c9df228f;
+  padding: 40px;
+}
+.avatar {
+  border-radius: 50%;
+  max-width: 130px;
+  object-fit: contain;
 }
