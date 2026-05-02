@@ -1,6 +1,6 @@
 # sippr-app
 JavaScript 2 Course - Social Media Application
-![Rainydays-w-js project screenshot](https://raw.githubusercontent.com/tominehaug/portfolio/main/images/rainydays-js.jpeg)
+![Sippr App project screenshot](https://raw.githubusercontent.com/tominehaug/sippr-app/main/assets/screenshot.png)
 
 Sippr is a social media app for sharing posts both with and wothout images, including interacting with other users through following. It is a project from an intermediate JavaScript course in the third semester of my Front-End Development studies at Noroff Vocational School.
 
