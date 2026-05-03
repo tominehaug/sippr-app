@@ -19,7 +19,7 @@ export function createPostCard(post, options = {}) {
   }
 
   const linkUser = document.createElement("a");
-  linkUser.href = `${basePath}profile.html?user=${post.author.name}`;
+  linkUser.href = `${basePath}/profile.html?user=${post.author.name}`;
 
   linkUser.addEventListener("click", (e) => {
     e.stopPropagation();
