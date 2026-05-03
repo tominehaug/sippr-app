@@ -1,6 +1,9 @@
 import { post } from "./apiClient.js";
 
 const LOGIN_ENDPOINT = "/auth/login";
+const basePath = window.location.hostname.includes("github.io")
+  ? "/sippr-app"
+  : "";
 
 /**
  * Stores access token and in localStorage
@@ -12,13 +15,13 @@ const LOGIN_ENDPOINT = "/auth/login";
  * 
  js
  * const profile = await loginUser({
- *   email: "user@example.com",
+ *   email: "user@exampled.com",
  *   password: "password"
  * });
  * // expected result: 
  * {
  *   name: "example123",
- *   email: "user@example.com",
+ *   email: "user@exampled.com",
  *   bio: "profile bio",
  *   avatar: {
  *     url: "avatar.jpg",
@@ -43,5 +46,5 @@ export function logoutUser() {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("profile");
 
-  window.location.href = "../../index.html";
+  window.location.href = `${basePath}/index.html`;
 }

@@ -2,6 +2,10 @@ const path = window.location.pathname;
 const params = new URLSearchParams(window.location.search);
 const userProfile = params.get("user");
 
+const basePath = window.location.hostname.includes("github.io")
+  ? "/sippr-app"
+  : "";
+
 export function createPostCard(post, options = {}) {
   const { clickable = true } = options;
 
@@ -10,12 +14,12 @@ export function createPostCard(post, options = {}) {
 
   if (clickable) {
     postWrapper.addEventListener("click", () => {
-      window.location.href = `single-post.html?id=${post.id}`;
+      window.location.href = `${basePath}/single-post.html?id=${post.id}`;
     });
   }
 
   const linkUser = document.createElement("a");
-  linkUser.href = `profile.html?user=${post.author.name}`;
+  linkUser.href = `${basePath}profile.html?user=${post.author.name}`;
 
   linkUser.addEventListener("click", (e) => {
     e.stopPropagation();

@@ -5,6 +5,10 @@ import { validateForm } from "../utils/validation.js";
 import { renderHeader } from "../components/header.js";
 import { renderFooter } from "../components/footerNav.js";
 
+const basePath = window.location.hostname.includes("github.io")
+  ? "/sippr-app"
+  : "";
+
 const editForm = document.getElementById("edit-form");
 const params = new URLSearchParams(window.location.search);
 const postId = params.get("id");
@@ -60,7 +64,7 @@ async function updatePost(form) {
     await put(`/social/posts/${postId}`, body);
     showMessage("Upload was successful!");
     setTimeout(() => {
-      window.location.href = "../../feed.html";
+      window.location.href = `${basePath}/feed.html`;
     }, 1000);
   } catch (error) {
     showError(error?.message || "Upload failed");
@@ -101,7 +105,7 @@ function confirmAction() {
       alertDiv.remove();
       showMessage("Post is deleted.");
       setTimeout(() => {
-        window.location.href = "../../feed.html";
+        window.location.href = `${basePath}/feed.html`;
       }, 1000);
     } catch (error) {
       console.log(error);

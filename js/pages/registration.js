@@ -3,6 +3,10 @@ import { post } from "../services/apiClient.js";
 import { showMessage } from "../services/ui-messages.js";
 import { showError } from "../services/errors.js";
 
+const basePath = window.location.hostname.includes("github.io")
+  ? "/sippr-app"
+  : "";
+
 const registrationForm = document.getElementById("registration-form");
 
 registrationForm.addEventListener("submit", async (event) => {
@@ -69,7 +73,7 @@ async function handleRegistration() {
     await post("/auth/register", body);
     showMessage("Registration was successful!");
     setTimeout(() => {
-      window.location.href = "../../login.html";
+      window.location.href = `${basePath}/login.html`;
     }, 1000);
   } catch (error) {
     showError(error.message || "Registration failed");

@@ -1,3 +1,7 @@
+const basePath = window.location.hostname.includes("github.io")
+  ? "/sippr-app"
+  : "";
+
 export function renderFooter() {
   const footer = document.querySelector("footer");
   if (!footer) {
@@ -14,15 +18,15 @@ export function renderFooter() {
   const username = profile.name;
 
   footer.innerHTML = `
-    <a href="create-post.html"><i class="fa-solid fa-plus"></i></a>
-    <a href="feed.html">
+    <a href="${basePath}/create-post.html"><i class="fa-solid fa-plus"></i></a>
+    <a href="${basePath}/feed.html">
       <img
-        src="assets/juice_circle.svg"
+        src="${basePath}/assets/juice_circle.svg"
         alt="keep scrolling with this juice box"
         class="juice-icon"
         height="110"
         width="110"
       />
     </a>
-    <a href="profile.html?user=${username}"><i class="fa-solid fa-user"></i></a>`;
+    <a href="${basePath}/profile.html?user=${username}"><i class="fa-solid fa-user"></i></a>`;
 }

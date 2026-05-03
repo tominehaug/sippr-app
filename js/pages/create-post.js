@@ -5,6 +5,10 @@ import { validateForm } from "../utils/validation.js";
 import { renderHeader } from "../components/header.js";
 import { renderFooter } from "../components/footerNav.js";
 
+const basePath = window.location.hostname.includes("github.io")
+  ? "/sippr-app"
+  : "";
+
 const createForm = document.getElementById("create-form");
 
 createForm.addEventListener("submit", async (event) => {
@@ -40,7 +44,7 @@ async function uploadPost(form) {
     await post("/social/posts", body);
     showMessage("Upload was successful!");
     setTimeout(() => {
-      window.location.href = "../../feed.html";
+      window.location.href = `${basePath}/feed.html`;
     }, 1000);
   } catch (error) {
     showError(error?.message || "Upload failed");

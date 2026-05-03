@@ -3,6 +3,10 @@ import { renderHeader } from "../components/header.js";
 import { createPostCard } from "../components/postCard.js";
 import { get } from "../services/apiClient.js";
 
+const basePath = window.location.hostname.includes("github.io")
+  ? "/sippr-app"
+  : "";
+
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
@@ -29,7 +33,7 @@ async function renderSinglePost(post) {
 
   if (creator === loggedInUser) {
     const editLink = document.createElement("a");
-    editLink.href = `../../edit-post.html?id=${id}`;
+    editLink.href = `${basePath}/edit-post.html?id=${id}`;
     const editIcon = document.createElement("i");
     editIcon.classList.add("fa-solid", "fa-share-from-square");
     editLink.appendChild(editIcon);

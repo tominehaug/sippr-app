@@ -3,6 +3,10 @@ import { loginUser } from "../services/authService.js";
 import { showError } from "../services/errors.js";
 import { showMessage } from "../services/ui-messages.js";
 
+const basePath = window.location.hostname.includes("github.io")
+  ? "/sippr-app"
+  : "";
+
 const loginForm = document.getElementById("login-form");
 
 loginForm.addEventListener("submit", async (event) => {
@@ -26,7 +30,7 @@ async function handleLogin() {
     await loginUser(body);
     showMessage("Login was successful!");
     setTimeout(() => {
-      window.location.href = "../../feed.html";
+      window.location.href = `${basePath}/feed.html`;
     }, 1000);
   } catch (error) {
     showError(error.message || "Login failed");
